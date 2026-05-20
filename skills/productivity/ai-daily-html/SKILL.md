@@ -10,13 +10,14 @@ tags: [html, design, ai-news, daily-report, cyberpunk]
 
 ## 使用场景
 
-当需要生成一份视觉化 AI 日报时使用。完整的调用链分为两步：
+当需要生成一份视觉化 AI 日报时使用。典型的调用链：
+1. 从 6 个资讯源采集数据（juya-ai-daily、news.smol.ai、ai.hubtoday.app、Decohack、GitHub Trending、HuggingFace Papers）
+2. 整理结构化日报内容
+3. 用本技能渲染为 HTML
 
-### 第一步：数据采集
-按照 `references/data-collection-workflow.md` 中的工作流，从 6 个资讯源并行采集最新 24 小时的 AI 资讯。
+## 输出路径
 
-### 第二步：HTML 渲染
-将采集整理后的日报内容，用本技能提供的 HTML 模板渲染为可视化页面。
+生成的 HTML 日报文件默认存放在 **`~/Desktop/ai日报/`** 目录下。
 
 ## 模板文件
 
@@ -33,11 +34,7 @@ tags: [html, design, ai-news, daily-report, cyberpunk]
 | ✨ 动效 | 9 区入场动画、卡片悬停发光、扫描线/噪点纹理 |
 | 📱 响应式 | 移动端/平板/桌面全适配 |
 
-## 输出路径
-
-生成的 HTML 日报文件默认存放在 **`~/Desktop/ai日报/`** 目录下。
-
-## 页面结构（9 大板块）
+### 页面结构（9 大板块）
 
 ```
 ┌─ 头部 — 终端徽章 + 标题 + 闪烁光标 ─────────────┐
