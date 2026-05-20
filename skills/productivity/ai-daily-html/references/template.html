@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 日报 · 2026.5.20</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & BASE ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-deep:#080c12;
+  --bg-card:#10161e;
+  --bg-card-alt:#141c26;
+  --bg-elevated:#1a2332;
+  --text-primary:#e6e8ec;
+  --text-secondary:#9ca3af;
+  --text-muted:#6b7280;
+  --accent-fire:#ff5722;
+  --accent-ember:#ff8a50;
+  --accent-cyan:#00e5ff;
+  --accent-cyan-dim:#006880;
+  --accent-amber:#ffab00;
+  --accent-lime:#76ff03;
+  --border-subtle:rgba(255,87,34,0.12);
+  --border-glow:rgba(255,87,34,0.3);
+  --glow-fire:0 0 20px rgba(255,87,34,0.25),0 0 60px rgba(255,87,34,0.08);
+  --glow-cyan:0 0 20px rgba(0,229,255,0.2),0 0 60px rgba(0,229,255,0.06);
+  --font-display:'Orbitron',monospace;
+  --font-heading:'Orbitron','Noto Sans SC',sans-serif;
+  --font-body:'Space Grotesk','Noto Sans SC',sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+  --font-cn:'Noto Sans SC',sans-serif;
+}
+html{
+  font-size:16px;
+  scroll-behavior:smooth;
+  background:var(--bg-deep);
+  color:var(--text-primary);
+}
+body{
+  font-family:var(--font-body);
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(0,229,255,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 30%,rgba(255,87,34,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse at 50% 80%,rgba(255,171,0,0.03) 0%,transparent 50%);
+}
+
+/* ============ NOISE TEXTURE ============ */
+.noise-overlay{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
+
+/* ============ GRID BG ============ */
+.grid-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.06;
+  background-image:
+    linear-gradient(rgba(255,87,34,0.3) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,87,34,0.3) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* ============ SCANLINES ============ */
+.scanlines{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.04;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0.15) 0px,rgba(0,0,0,0.15) 2px,transparent 2px,transparent 4px);
+}
+
+/* ============ MAIN CONTAINER ============ */
+.main-container{
+  position:relative;
+  z-index:1;
+  max-width:1280px;
+  margin:0 auto;
+  padding:2rem 1.5rem 4rem;
+}
+
+/* ============ HEADER ============ */
+.header{
+  position:relative;
+  margin-bottom:3rem;
+  padding:3rem 0 2rem;
+  border-bottom:2px solid var(--border-subtle);
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--accent-cyan),var(--accent-fire),var(--accent-amber));
+  animation:headerLine 8s ease-in-out infinite;
+}
+@keyframes headerLine{
+  0%,100%{opacity:1;}
+  50%{opacity:0.4;}
+}
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  margin-bottom:0.5rem;
+}
+.header-badge{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  letter-spacing:0.15em;
+  color:var(--accent-cyan);
+  border:1px solid rgba(0,229,255,0.3);
+  padding:0.2rem 0.75rem;
+  border-radius:2px;
+  text-transform:uppercase;
+  animation:pulseBadge 2s ease-in-out infinite;
+}
+@keyframes pulseBadge{
+  0%,100%{border-color:rgba(0,229,255,0.3);}
+  50%{border-color:rgba(0,229,255,0.6);box-shadow:0 0 8px rgba(0,229,255,0.2);}
+}
+.header-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.2rem,5vw,3.8rem);
+  font-weight:800;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  line-height:1.1;
+  background:linear-gradient(180deg,#fff 0%,#e6e8ec 50%,var(--accent-fire) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  filter:drop-shadow(0 0 30px rgba(255,87,34,0.4));
+}
+.header-title .date-part{
+  color:var(--accent-cyan);
+  -webkit-text-fill-color:initial;
+  background:none;
+  filter:none;
+  font-size:0.55em;
+  font-weight:600;
+  opacity:0.85;
+}
+.header-subtitle{
+  font-family:var(--font-mono);
+  font-size:0.95rem;
+  color:var(--text-secondary);
+  letter-spacing:0.08em;
+  margin-top:0.5rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.header-subtitle .dot{
+  width:6px;height:6px;
+  background:var(--accent-fire);
+  border-radius:50%;
+  animation:pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,87,34,0.6);}
+  50%{box-shadow:0 0 0 8px rgba(255,87,34,0);}
+}
+.header-cursor{
+  display:inline-block;
+  width:2px;
+  height:1em;
+  background:var(--accent-cyan);
+  animation:blink 1s step-end infinite;
+  vertical-align:text-bottom;
+}
+@keyframes blink{50%{opacity:0;}}
+
+/* ============ SECTION TITLES ============ */
+.section-title{
+  font-family:var(--font-display);
+  font-size:1.3rem;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--text-primary);
+  margin-bottom:1.5rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.section-title::before{
+  content:'';
+  display:block;
+  width:24px;
+  height:2px;
+  background:var(--accent-fire);
+}
+.section-title .icon{
+  font-size:1.1rem;
+}
+.section{
+  margin-bottom:3.5rem;
+  animation:fadeInUp 0.6s ease-out both;
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.section:nth-child(1){animation-delay:0s}
+.section:nth-child(2){animation-delay:0.1s}
+.section:nth-child(3){animation-delay:0.2s}
+.section:nth-child(4){animation-delay:0.3s}
+.section:nth-child(5){animation-delay:0.4s}
+.section:nth-child(6){animation-delay:0.5s}
+.section:nth-child(7){animation-delay:0.6s}
+.section:nth-child(8){animation-delay:0.7s}
+.section:nth-child(9){animation-delay:0.8s}
+
+/* ============ HEADLINES (今日头条) ============ */
+.headlines-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+.headline-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  padding:1.25rem;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s ease;
+  cursor:default;
+}
+.headline-card:first-child{
+  grid-column:1/-1;
+  border-color:var(--border-glow);
+  box-shadow:var(--glow-fire);
+  background:linear-gradient(135deg,var(--bg-elevated),var(--bg-card));
+}
+.headline-card:first-child::after{
+  content:'BREAKING';
+  position:absolute;
+  top:0.5rem;right:0.75rem;
+  font-family:var(--font-mono);
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  color:var(--accent-fire);
+  animation:breathingText 2s ease-in-out infinite;
+}
+@keyframes breathingText{
+  0%,100%{opacity:1;}
+  50%{opacity:0.4;}
+}
+.headline-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--border-glow);
+  box-shadow:var(--glow-fire);
+}
+.headline-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:3px;
+  height:100%;
+  background:var(--accent-fire);
+  transform:scaleY(0);
+  transition:transform 0.4s ease;
+  transform-origin:top;
+}
+.headline-card:hover::before{
+  transform:scaleY(1);
+}
+.headline-rank{
+  font-family:var(--font-display);
+  font-size:0.75rem;
+  font-weight:700;
+  color:var(--accent-cyan);
+  letter-spacing:0.1em;
+  margin-bottom:0.4rem;
+}
+.headline-title{
+  font-family:var(--font-cn);
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text-primary);
+  line-height:1.5;
+  margin-bottom:0.3rem;
+}
+.headline-card:first-child .headline-title{
+  font-size:1.25rem;
+  font-weight:800;
+}
+.headline-desc{
+  font-size:0.85rem;
+  color:var(--text-secondary);
+  line-height:1.5;
+}
+.heat-bar{
+  display:flex;
+  gap:3px;
+  margin-top:0.5rem;
+}
+.heat-dot{
+  width:8px;height:8px;
+  border-radius:2px;
+  background:var(--accent-fire);
+  opacity:0.4;
+  transition:all 0.3s ease;
+}
+.heat-dot.active{
+  opacity:1;
+  box-shadow:0 0 6px rgba(255,87,34,0.5);
+}
+.headline-card:hover .heat-dot{opacity:1;}
+
+/* ============ MODEL CARDS (AI模型与平台) ============ */
+.models-layout{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:1.5rem;
+}
+.model-category{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  padding:1.5rem;
+  position:relative;
+  transition:all 0.3s ease;
+}
+.model-category:hover{
+  border-color:var(--border-glow);
+}
+.model-category-title{
+  font-family:var(--font-display);
+  font-size:0.85rem;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent-cyan);
+  margin-bottom:1.25rem;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid rgba(0,229,255,0.15);
+}
+.model-item{
+  display:flex;
+  align-items:flex-start;
+  gap:0.75rem;
+  padding:0.6rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  transition:all 0.2s ease;
+}
+.model-item:hover{
+  background:rgba(255,87,34,0.04);
+  margin:0 -0.5rem;
+  padding:0.6rem 0.5rem;
+}
+.model-item:last-child{border-bottom:none}
+.model-bullet{
+  width:6px;height:6px;
+  background:var(--accent-fire);
+  border-radius:50%;
+  margin-top:0.5rem;
+  flex-shrink:0;
+}
+.model-name{
+  font-family:var(--font-mono);
+  font-size:0.85rem;
+  font-weight:600;
+  color:var(--text-primary);
+}
+.model-detail{
+  font-size:0.78rem;
+  color:var(--text-muted);
+  margin-top:0.1rem;
+  line-height:1.4;
+}
+.model-highlight{
+  color:var(--accent-amber);
+  font-weight:500;
+}
+.model-price{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  color:var(--accent-cyan);
+  background:rgba(0,229,255,0.08);
+  padding:0.1rem 0.4rem;
+  margin-left:0.3rem;
+  border-radius:2px;
+}
+
+/* ============ PRODUCT HUNT TABLE ============ */
+.ph-table-wrap{
+  overflow-x:auto;
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+}
+.ph-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.88rem;
+}
+.ph-table thead th{
+  font-family:var(--font-display);
+  font-size:0.7rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--accent-cyan);
+  text-align:left;
+  padding:1rem 1.25rem;
+  border-bottom:2px solid var(--border-subtle);
+  background:rgba(0,229,255,0.03);
+}
+.ph-table tbody td{
+  padding:0.85rem 1.25rem;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  transition:all 0.2s ease;
+}
+.ph-table tbody tr{
+  transition:all 0.3s ease;
+}
+.ph-table tbody tr:hover{
+  background:rgba(255,87,34,0.05);
+}
+.ph-table tbody tr:hover td:first-child{
+  color:var(--accent-fire);
+  font-weight:700;
+}
+.ph-rank{
+  font-family:var(--font-display);
+  font-weight:700;
+  color:var(--text-secondary);
+  width:3rem;
+}
+.ph-rank.top1{color:var(--accent-amber);font-size:1.2rem;}
+.ph-rank.top2{color:#c0c0c0;font-size:1.1rem;}
+.ph-rank.top3{color:#cd7f32;font-size:1.05rem;}
+.ph-name{
+  font-weight:600;
+  color:var(--text-primary);
+}
+.ph-desc{
+  color:var(--text-muted);
+  font-size:0.8rem;
+}
+.ph-votes{
+  font-family:var(--font-mono);
+  color:var(--accent-lime);
+  font-weight:600;
+  text-align:right;
+  white-space:nowrap;
+}
+
+/* ============ PAPERS (前沿论文) ============ */
+.papers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;
+}
+.paper-card{
+  background:var(--bg-card-alt);
+  border:1px solid var(--border-subtle);
+  padding:1.25rem;
+  position:relative;
+  transition:all 0.3s ease;
+}
+.paper-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(0,229,255,0.3);
+  box-shadow:var(--glow-cyan);
+}
+.paper-card::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-cyan),transparent);
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+.paper-card:hover::after{opacity:1;}
+.paper-index{
+  font-family:var(--font-display);
+  font-size:2rem;
+  font-weight:900;
+  color:var(--accent-fire);
+  opacity:0.2;
+  position:absolute;
+  top:0.5rem;right:0.75rem;
+  transition:opacity 0.3s ease;
+}
+.paper-card:hover .paper-index{opacity:0.5;}
+.paper-title{
+  font-family:var(--font-mono);
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text-primary);
+  margin-bottom:0.5rem;
+  line-height:1.3;
+}
+.paper-desc{
+  font-size:0.8rem;
+  color:var(--text-muted);
+  line-height:1.5;
+}
+.paper-tag{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:0.65rem;
+  letter-spacing:0.1em;
+  color:var(--accent-cyan);
+  border:1px solid rgba(0,229,255,0.25);
+  padding:0.15rem 0.5rem;
+  margin-top:0.75rem;
+  border-radius:2px;
+}
+
+/* ============ GITHUB TRENDING ============ */
+.github-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;
+}
+.gh-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  padding:1.25rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  transition:all 0.3s ease;
+}
+.gh-card:hover{
+  border-color:rgba(0,229,255,0.3);
+  box-shadow:var(--glow-cyan);
+  transform:translateY(-2px);
+}
+.gh-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.gh-repo{
+  font-family:var(--font-mono);
+  font-size:0.9rem;
+  font-weight:600;
+  color:var(--text-primary);
+  display:flex;
+  align-items:center;
+  gap:0.4rem;
+}
+.gh-repo::before{
+  content:'';
+  display:inline-block;
+  width:10px;height:10px;
+  background:var(--accent-cyan);
+  clip-path:polygon(50% 0%,0% 100%,100% 100%);
+  opacity:0.6;
+}
+.gh-stars{
+  display:flex;
+  align-items:center;
+  gap:0.35rem;
+  font-family:var(--font-mono);
+  font-size:0.8rem;
+  font-weight:700;
+}
+.gh-stars-new{
+  color:var(--accent-lime);
+}
+.gh-stars-total{
+  color:var(--text-muted);
+  font-weight:400;
+}
+.gh-desc{
+  font-size:0.82rem;
+  color:var(--text-secondary);
+  line-height:1.4;
+}
+.gh-bar-wrap{
+  height:3px;
+  background:rgba(255,255,255,0.05);
+  border-radius:0;
+  overflow:hidden;
+  margin-top:0.25rem;
+}
+.gh-bar{
+  height:100%;
+  background:var(--accent-cyan);
+  transition:width 0.8s ease;
+}
+
+/* ============ TIMELINE (行业动态) ============ */
+.timeline{
+  position:relative;
+  padding-left:2rem;
+}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(180deg,var(--accent-cyan),var(--accent-fire),var(--accent-amber));
+}
+.timeline-item{
+  position:relative;
+  padding:1rem 0;
+  padding-left:1.5rem;
+  transition:all 0.3s ease;
+}
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-2rem;top:1.4rem;
+  width:12px;height:12px;
+  background:var(--bg-deep);
+  border:2px solid var(--accent-fire);
+  border-radius:50%;
+  transition:all 0.3s ease;
+  z-index:2;
+}
+.timeline-item:hover::before{
+  background:var(--accent-fire);
+  box-shadow:0 0 12px rgba(255,87,34,0.5);
+}
+.timeline-item:hover{
+  background:rgba(255,87,34,0.03);
+  margin:0 -0.5rem;
+  padding-left:2rem;
+}
+.tl-date{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  color:var(--accent-cyan);
+  margin-bottom:0.3rem;
+}
+.tl-title{
+  font-weight:700;
+  color:var(--text-primary);
+  font-size:0.95rem;
+}
+.tl-desc{
+  font-size:0.82rem;
+  color:var(--text-muted);
+  margin-top:0.2rem;
+}
+
+/* ============ TAG CLOUD (今日关键词) ============ */
+.tags-cloud{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.65rem;
+  justify-content:center;
+  padding:1.5rem;
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+}
+.tag{
+  font-family:var(--font-mono);
+  font-size:0.78rem;
+  letter-spacing:0.05em;
+  padding:0.5rem 1rem;
+  border:1px solid rgba(255,255,255,0.1);
+  color:var(--text-secondary);
+  cursor:default;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+.tag::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(255,87,34,0.08);
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+.tag:hover{
+  color:var(--accent-fire);
+  border-color:var(--accent-fire);
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(255,87,34,0.2);
+}
+.tag:hover::before{opacity:1;}
+.tag.featured{
+  border-color:var(--accent-fire);
+  color:var(--accent-fire);
+  font-weight:600;
+  font-size:0.85rem;
+  padding:0.55rem 1.1rem;
+}
+.tag.hot{
+  border-color:rgba(0,229,255,0.4);
+  color:var(--accent-cyan);
+}
+
+/* ============ FOOTER ============ */
+.footer{
+  text-align:center;
+  padding:2rem 0;
+  border-top:1px solid var(--border-subtle);
+  margin-top:2rem;
+}
+.footer-line{
+  font-family:var(--font-mono);
+  font-size:0.7rem;
+  letter-spacing:0.12em;
+  color:var(--text-muted);
+}
+.footer-glow{
+  display:inline-block;
+  width:40px;
+  height:1px;
+  background:linear-gradient(90deg,var(--accent-cyan),var(--accent-fire));
+  margin:0.5rem 0;
+}
+.footer-cursor{
+  display:inline-block;
+  width:6px;height:6px;
+  background:var(--accent-lime);
+  animation:pulseDot 2s ease-in-out infinite;
+}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:768px){
+  .headlines-grid{grid-template-columns:1fr;}
+  .models-layout{grid-template-columns:1fr;}
+  .papers-grid{grid-template-columns:1fr;}
+  .github-grid{grid-template-columns:1fr;}
+  .header-title{font-size:1.8rem;}
+  .section-title{font-size:1.1rem;}
+  .main-container{padding:1rem;}
+  .header{padding:1.5rem 0 1rem;}
+}
+
+@media(min-width:769px) and (max-width:1024px){
+  .headlines-grid{grid-template-columns:1fr 1fr;}
+  .models-layout{grid-template-columns:1fr 1fr;}
+  .papers-grid{grid-template-columns:repeat(2,1fr);}
+  .github-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ============ SCROLL GLOW DECORATION ============ */
+.corner-decor{
+  position:fixed;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.15;
+}
+.corner-decor.top-left{
+  top:2rem;left:2rem;
+  width:120px;height:120px;
+  border-top:2px solid var(--accent-cyan);
+  border-left:2px solid var(--accent-cyan);
+}
+.corner-decor.bottom-right{
+  bottom:2rem;right:2rem;
+  width:120px;height:120px;
+  border-bottom:2px solid var(--accent-fire);
+  border-right:2px solid var(--accent-fire);
+}
+
+/* ============ PARTICLE DOTS ============ */
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.particle{
+  position:absolute;
+  width:2px;height:2px;
+  background:var(--accent-cyan);
+  border-radius:50%;
+  animation:float 8s ease-in-out infinite;
+  opacity:0.3;
+}
+.particle:nth-child(odd){background:var(--accent-fire);}
+.particle:nth-child(3n){animation-duration:12s;}
+.particle:nth-child(4n){animation-duration:6s;}
+@keyframes float{
+  0%,100%{transform:translateY(0) scale(1);opacity:0.3;}
+  25%{transform:translateY(-10px) scale(1.5);opacity:0.5;}
+  50%{transform:translateY(0) scale(1);opacity:0.3;}
+  75%{transform:translateY(10px) scale(0.5);opacity:0.1;}
+}
+
+/* ============ GLITCH DECORATION ============ */
+.glitch-line{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-cyan),var(--accent-fire),transparent);
+  margin:2rem 0;
+  opacity:0.2;
+  animation:glitchShift 4s ease-in-out infinite;
+}
+@keyframes glitchShift{
+  0%,100%{opacity:0.15;transform:scaleX(1);}
+  25%{opacity:0.3;transform:scaleX(0.95);}
+  50%{opacity:0.1;transform:scaleX(1.05);}
+  75%{opacity:0.25;transform:scaleX(0.9);}
+}
+
+/* ============ STAGGERED CARD ENTRANCE ============ */
+.stagger-1{animation:cardIn 0.5s ease-out 0.05s both}
+.stagger-2{animation:cardIn 0.5s ease-out 0.12s both}
+.stagger-3{animation:cardIn 0.5s ease-out 0.19s both}
+.stagger-4{animation:cardIn 0.5s ease-out 0.26s both}
+.stagger-5{animation:cardIn 0.5s ease-out 0.33s both}
+.stagger-6{animation:cardIn 0.5s ease-out 0.40s both}
+.stagger-7{animation:cardIn 0.5s ease-out 0.47s both}
+.stagger-8{animation:cardIn 0.5s ease-out 0.54s both}
+.stagger-9{animation:cardIn 0.5s ease-out 0.61s both}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(15px) scale(0.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+<div class="grid-bg"></div>
+<div class="scanlines"></div>
+<div class="corner-decor top-left"></div>
+<div class="corner-decor bottom-right"></div>
+<div class="particles">
+  <div class="particle" style="top:10%;left:15%"></div>
+  <div class="particle" style="top:20%;left:75%"></div>
+  <div class="particle" style="top:35%;left:40%"></div>
+  <div class="particle" style="top:50%;left:85%"></div>
+  <div class="particle" style="top:65%;left:10%"></div>
+  <div class="particle" style="top:75%;left:60%"></div>
+  <div class="particle" style="top:85%;left:30%"></div>
+  <div class="particle" style="top:90%;left:70%"></div>
+  <div class="particle" style="top:15%;left:90%"></div>
+  <div class="particle" style="top:45%;left:25%"></div>
+</div>
+
+<div class="main-container">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-top">
+      <span class="header-badge">TERMINAL // v2026.05</span>
+      <span class="header-cursor"></span>
+    </div>
+    <h1 class="header-title">
+      AI 日报<br><span class="date-part">2026.05.20 // WED</span>
+    </h1>
+    <p class="header-subtitle">
+      <span class="dot"></span>
+      THE DAILY INTELLIGENCE BRIEF
+      <span style="color:var(--accent-cyan)">— SECTOR: ARTIFICIAL INTELLIGENCE</span>
+    </p>
+  </header>
+
+  <!-- ===== 今日头条 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🔥</span> BREAKING HEADLINES</h2>
+    <div class="headlines-grid">
+      <div class="headline-card stagger-1">
+        <div class="headline-rank">#01 · GOOGLE I/O 2026</div>
+        <div class="headline-title">Gemini 3.5 Flash 发布 — 谷歌迄今最强 Agent/编程模型</div>
+        <div class="headline-desc">1M 上下文窗口 · 65K 最大输出 · 原生多模态推理 · 重新定义 AI Agent 边界</div>
+        <div class="heat-bar">
+          <span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span>
+          <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-fire);margin-left:0.5rem;">TRENDING #1</span>
+        </div>
+      </div>
+      <div class="headline-card stagger-2">
+        <div class="headline-rank">#02 · GEMINI OMNI</div>
+        <div class="headline-title">Gemini Omni 视频模型 — 多模态生成新系列</div>
+        <div class="headline-desc">视频创作与编辑 · 多轮编辑保持场景/角色一致 · 支持 YouTube Shorts</div>
+        <div class="heat-bar"><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot"></span></div>
+      </div>
+      <div class="headline-card stagger-3">
+        <div class="headline-rank">#03 · ANTIGRAVITY 2.0</div>
+        <div class="headline-title">谷歌 Agent 平台 — 桌面 2.0 + CLI + SDK</div>
+        <div class="headline-desc">Managed Agents · 12 小时构建完整 OS 演示 · 开发者生态全面升级</div>
+        <div class="heat-bar"><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot"></span></div>
+      </div>
+      <div class="headline-card stagger-4">
+        <div class="headline-rank">#04 · PERSONNEL</div>
+        <div class="headline-title">Andrej Karpathy 加入 Anthropic</div>
+        <div class="headline-desc">AI 教父级人物重回研发一线 · 社区震动 · 人才流动格局生变</div>
+        <div class="heat-bar"><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot"></span></div>
+      </div>
+      <div class="headline-card stagger-5">
+        <div class="headline-rank">#05 · GITHUB TRENDING</div>
+        <div class="headline-title">openhuman 今日 +3,973 ⭐ — 私人 AI 超级智能</div>
+        <div class="headline-desc">Rust 编写 · 开源私人 AI · GitHub 社区爆火</div>
+        <div class="heat-bar"><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot active"></span><span class="heat-dot"></span><span class="heat-dot"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glitch-line"></div>
+
+  <!-- ===== AI 模型与平台 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🧠</span> MODELS &amp; PLATFORMS</h2>
+    <div class="models-layout">
+      <div class="model-category stagger-1">
+        <div class="model-category-title">▸ Google I/O 重磅发布</div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">Gemini 3.5 Flash</div>
+            <div class="model-detail">
+              <span class="model-price">$1.50 / $9.00</span> per 1M tokens ·
+              Intelligence Index <span class="model-highlight">55</span> ·
+              MMMU-Pro <span class="model-highlight">84%</span> ·
+              输出 &gt;280 tok/s
+            </div>
+          </div>
+        </div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">Gemini Omni</div>
+            <div class="model-detail">视频创建 / 编辑 · Gemini App · Flow · YouTube Shorts 集成</div>
+          </div>
+        </div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">Gemini Spark</div>
+            <div class="model-detail">24/7 个人 AI 代理 · 云端 VM 持续运行</div>
+          </div>
+        </div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">AI Studio 升级 + 新定价</div>
+            <div class="model-detail">开发工具全面更新 · <span class="model-price">$100/月</span>套餐 · Ultra 降至 <span class="model-price">$200/月</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="model-category stagger-2">
+        <div class="model-category-title">▸ 其他模型动态</div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">字节跳动 Lance</div>
+            <div class="model-detail">统一多模态模型 · <span class="model-highlight">3B</span> 激活参数</div>
+          </div>
+        </div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">Qwen3.7 预览</div>
+            <div class="model-detail">Arena <span class="model-highlight">#13</span> 文本 · <span class="model-highlight">#7</span> 数学</div>
+          </div>
+        </div>
+        <div class="model-item">
+          <span class="model-bullet"></span>
+          <div>
+            <div class="model-name">Cursor Composer 2.5</div>
+            <div class="model-detail"><span class="model-highlight">10x</span> 算力提升 · SpaceXAI 合作</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glitch-line"></div>
+
+  <!-- ===== Product Hunt 精选 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">🚀</span> PRODUCT HUNT — TOP 10</h2>
+    <div class="ph-table-wrap stagger-1">
+      <table class="ph-table">
+        <thead>
+          <tr><th>RANK</th><th>PRODUCT</th><th>DESCRIPTION</th><th>VOTES</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="ph-rank top1">#01</td><td class="ph-name">LobeHub</td><td class="ph-desc">多智能体首席代理操作员 (CAO)</td><td class="ph-votes">🔺 460</td></tr>
+          <tr><td class="ph-rank top2">#02</td><td class="ph-name">SocLeads 3.0</td><td class="ph-desc">社交媒体 / 地图邮件抓取</td><td class="ph-votes">🔺 437</td></tr>
+          <tr><td class="ph-rank top3">#03</td><td class="ph-name">ReactVision Studio</td><td class="ph-desc">AR / VR 应用构建平台</td><td class="ph-votes">🔺 245</td></tr>
+          <tr><td class="ph-rank">#04</td><td class="ph-name">Shadow</td><td class="ph-desc">Mac AI 屏幕语音控制</td><td class="ph-votes">🔺 191</td></tr>
+          <tr><td class="ph-rank">#05</td><td class="ph-name">M1 by Montage</td><td class="ph-desc">代理 UI 渲染快 10 倍</td><td class="ph-votes">🔺 157</td></tr>
+          <tr><td class="ph-rank">#06</td><td class="ph-name">Krea 2</td><td class="ph-desc">自研基础图像模型</td><td class="ph-votes">—</td></tr>
+          <tr><td class="ph-rank">#07</td><td class="ph-name">Agentspan</td><td class="ph-desc">开源持久化 AI 代理运行时</td><td class="ph-votes">—</td></tr>
+          <tr><td class="ph-rank">#08</td><td class="ph-name">AnyFrame</td><td class="ph-desc">AI 代理沙盒环境</td><td class="ph-votes">—</td></tr>
+          <tr><td class="ph-rank">#09</td><td class="ph-name">pixserp</td><td class="ph-desc">开发者 AI 搜索引擎</td><td class="ph-votes">—</td></tr>
+          <tr><td class="ph-rank">#10</td><td class="ph-name">NonBioS.ai</td><td class="ph-desc">拥有自己电脑的 AI 开发者</td><td class="ph-votes">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 前沿论文 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">📄</span> RESEARCH PAPERS — TOP 5</h2>
+    <div class="papers-grid">
+      <div class="paper-card stagger-1">
+        <div class="paper-index">01</div>
+        <div class="paper-title">OpenComputer</div>
+        <div class="paper-desc">可验证的计算机使用 Agent 软件世界</div>
+        <span class="paper-tag">AGENT</span>
+      </div>
+      <div class="paper-card stagger-2">
+        <div class="paper-index">02</div>
+        <div class="paper-title">GoLongRL</div>
+        <div class="paper-desc">长上下文 RL 训练配方 — 突破上下文长度限制</div>
+        <span class="paper-tag">RL</span>
+      </div>
+      <div class="paper-card stagger-3">
+        <div class="paper-index">03</div>
+        <div class="paper-title">AutoResearchClaw</div>
+        <div class="paper-desc">多智能体自主研究流水线</div>
+        <span class="paper-tag">MULTI-AGENT</span>
+      </div>
+      <div class="paper-card stagger-4">
+        <div class="paper-index">04</div>
+        <div class="paper-title">CogOmniControl</div>
+        <div class="paper-desc">推理驱动的可控视频生成</div>
+        <span class="paper-tag">VIDEO</span>
+      </div>
+      <div class="paper-card stagger-5">
+        <div class="paper-index">05</div>
+        <div class="paper-title">EnvFactory</div>
+        <div class="paper-desc">可执行环境合成</div>
+        <span class="paper-tag">SYNTH</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GitHub Trending ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">💻</span> GITHUB TRENDING</h2>
+    <div class="github-grid" id="githubGrid"></div>
+  </section>
+
+  <!-- ===== 行业动态 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">📰</span> INDUSTRY PULSE</h2>
+    <div class="timeline">
+      <div class="timeline-item stagger-1">
+        <div class="tl-date">2026.05.20</div>
+        <div class="tl-title">Karpathy 加入 Anthropic — 重回研发一线</div>
+        <div class="tl-desc">AI 社区最受关注的人事变动，人才竞争白热化</div>
+      </div>
+      <div class="timeline-item stagger-2">
+        <div class="tl-date">2026.05.20</div>
+        <div class="tl-title">OpenAI 推出算力保障服务</div>
+        <div class="tl-desc">1-3 年预留算力 · 企业级稳定性承诺</div>
+      </div>
+      <div class="timeline-item stagger-3">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-title">Meta 裁员 8,000 人</div>
+        <div class="tl-desc">Q1 营收 $56B · 组织架构大幅调整</div>
+      </div>
+      <div class="timeline-item stagger-4">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-title">教皇联手 Anthropic 发布 AI 通谕</div>
+        <div class="tl-desc">AI 伦理与人类价值观的深度对话</div>
+      </div>
+      <div class="timeline-item stagger-5">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-title">英伟达交付首款自研 CPU 芯片 Vera</div>
+        <div class="tl-desc">从 GPU 霸主到全栈芯片巨头</div>
+      </div>
+      <div class="timeline-item stagger-6">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-title">Cerebras IPO — 服务万亿参数模型</div>
+        <div class="tl-desc">AI 芯片新势力登陆资本市场</div>
+      </div>
+      <div class="timeline-item stagger-7">
+        <div class="tl-date">2026.05</div>
+        <div class="tl-title">HuggingFace Carbon DNA 模型</div>
+        <div class="tl-desc">比 Evo2-7B 快 <span style="color:var(--accent-lime);font-weight:600;">250-275x</span> · 生物序列建模突破</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 今日关键词 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="icon">📊</span> KEYWORDS CLOUD</h2>
+    <div class="tags-cloud stagger-1">
+      <span class="tag featured">Google I/O</span>
+      <span class="tag featured">Gemini 3.5 Flash</span>
+      <span class="tag hot">Karpathy→Anthropic</span>
+      <span class="tag hot">AI Agent</span>
+      <span class="tag">Antigravity 2.0</span>
+      <span class="tag">Meta 裁员</span>
+      <span class="tag">Product Hunt AI</span>
+      <span class="tag hot">openhuman</span>
+      <span class="tag">Cerebras IPO</span>
+      <span class="tag">Gemini Omni</span>
+      <span class="tag">Cursor 2.5</span>
+      <span class="tag">Lance</span>
+      <span class="tag">OpenAI</span>
+      <span class="tag">NVIDIA Vera</span>
+      <span class="tag">Carbon DNA</span>
+      <span class="tag">Qwen3.7</span>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-glow"></div>
+    <p class="footer-line">AI DAILY BRIEF · 2026.05.20 · COMPILED BY HERMES AGENT</p>
+    <p class="footer-line" style="margin-top:0.3rem;">DATA SOURCES: GOOGLE I/O · GITHUB TRENDING · PRODUCT HUNT · ARXIV</p>
+    <span class="footer-cursor" style="margin-top:0.75rem;"></span>
+    <p class="footer-line" style="margin-top:0.5rem;color:var(--text-muted);opacity:0.5;">SYS.END_OF_TRANSMISSION</p>
+  </footer>
+
+</div>
+
+<script>
+// ============ GITHUB TRENDING DYNAMIC RENDER ============
+const ghData = [
+  {repo:'openhuman',starsNew:3973,starsTotal:22328,desc:'私人 AI 超级智能 · Rust 编写 · 开源',pct:100},
+  {repo:'academic-research-skills',starsNew:3164,starsTotal:14653,desc:'学术研究技能集',pct:80},
+  {repo:'andrej-karpathy-skills',starsNew:1955,starsTotal:139086,desc:'Karpathy 技能库 · 社区最热',pct:49},
+  {repo:'codegraph',starsNew:1850,starsTotal:7115,desc:'代码图谱可视化',pct:47},
+  {repo:'superpowers (obra)',starsNew:1623,starsTotal:199001,desc:'超级能力工具集',pct:41},
+  {repo:'agentmemory',starsNew:1609,starsTotal:14488,desc:'Agent 记忆框架',pct:41},
+  {repo:'agency-agents',starsNew:1120,starsTotal:102066,desc:'Agency Agents 平台',pct:28},
+  {repo:'CLI-Anything',starsNew:1038,starsTotal:38030,desc:'命令行万能工具',pct:26},
+  {repo:'ViMax',starsNew:503,starsTotal:5657,desc:'视频生成模型',pct:13}
+];
+
+const grid = document.getElementById('githubGrid');
+ghData.forEach((item,i) => {
+  const card = document.createElement('div');
+  card.className = `gh-card stagger-${i+1}`;
+  card.innerHTML = `
+    <div class="gh-header">
+      <span class="gh-repo">${item.repo}</span>
+      <span class="gh-stars">
+        <span class="gh-stars-new">+${item.starsNew.toLocaleString()} ⭐</span>
+        <span class="gh-stars-total">${item.starsTotal.toLocaleString()} ⭐</span>
+      </span>
+    </div>
+    <div class="gh-desc">${item.desc}</div>
+    <div class="gh-bar-wrap"><div class="gh-bar" style="width:${item.pct}%"></div></div>
+  `;
+  grid.appendChild(card);
+});
+
+// ============ INTERSECTION OBSERVER FOR ANIMATIONS ============
+const observerOptions = {threshold:0.1,rootMargin:'0px 0px -50px 0px'};
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.style.animationPlayState = 'running';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ============ RANDOM PARTICLE MOVEMENT ============
+document.querySelectorAll('.particle').forEach(p => {
+  const randomX = Math.random() * 5 - 2.5;
+  const randomY = Math.random() * 5 - 2.5;
+  p.style.setProperty('--dx', randomX);
+  p.style.setProperty('--dy', randomY);
+});
+
+// ============ SMOOTH ENTRANCE FOR DYNAMIC CONTENT ============
+setTimeout(() => {
+  document.querySelectorAll('.gh-card').forEach((card,i) => {
+    card.style.opacity = '1';
+  });
+}, 100);
+
+console.log('%c AI DAILY BRIEF %c 2026.05.20 %c LOADED ',
+  'color:#ff5722;font-size:1.2em;font-weight:bold;',
+  'color:#00e5ff;',
+  'color:#76ff03;');
+console.log('%c Compiled by Hermes Agent · Nous Research',
+  'color:#9ca3af;font-style:italic;');
+</script>
+
+</body>
+</html>
