@@ -10,10 +10,13 @@ tags: [html, design, ai-news, daily-report, cyberpunk]
 
 ## 使用场景
 
-当需要生成一份视觉化 AI 日报时使用。典型的调用链：
-1. 从 6 个资讯源采集数据（juya-ai-daily、news.smol.ai、ai.hubtoday.app、Decohack、GitHub Trending、HuggingFace Papers）
-2. 整理结构化日报内容
-3. 用本技能渲染为 HTML
+当需要生成一份视觉化 AI 日报时使用。完整的调用链分为两步：
+
+### 第一步：数据采集
+按照 `references/data-collection-workflow.md` 中的工作流，从 6 个资讯源并行采集最新 24 小时的 AI 资讯。
+
+### 第二步：HTML 渲染
+将采集整理后的日报内容，用本技能提供的 HTML 模板渲染为可视化页面。
 
 ## 模板文件
 
