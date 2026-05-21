@@ -34,6 +34,12 @@
 | [nv-multi-model](skills/productivity/nv-multi-model/) | v1.4.0 | NVIDIA NIM 多模型竞速 Ping 系统 |
 | [ui-ux-pro-max](skills/productivity/ui-ux-pro-max/) | — | 智能 UI/UX 设计引擎 |
 
+### 📄 莉莉丝配置
+
+| 文件 | 说明 |
+|------|------|
+| [莉莉丝的工作规范](docs/莉莉丝的工作规范.md) | 莉莉丝的核心工作规范——子代理配置、竞速分组、调用方式、降级策略 |
+
 ---
 
 ## 🔧 使用方式
