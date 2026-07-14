@@ -333,6 +333,42 @@ git push personal main
 
 **详细工作流**：参见 `references/repo-status-check-workflow.md`
 
+### 本地 Git 清理工作流（2026-07-14验证）
+
+冰哥的策略：**GitHub 当仓库，本地 git 只是暂存区**。清理步骤：
+
+1. **创建 `.gitignore`** 排除运行时文件（`.env`、`*.db`、`config.yaml`、`SOUL.md`、`cache/`、`logs/`、`sessions/` 等）
+2. **批量提交 skills**：`git add skills/ && git commit -m "feat: add all skills"`
+3. **推送到 GitHub**
+
+⚠️ 排除项包括：`.env`/`.env.bak`、所有 `*.db`/`*.db-shm`/`*.db-wal`、`config.yaml` 及其备份、`SOUL.md` 及其备份、运行时目录（`cache/`、`logs/`、`sessions/`、`gateway/`、`cron/` 等）、state-snapshots/、trash/、workspace/
+
+### GitHub Secret Scanning 阻止推送
+
+当 `git push` 被 GitHub 拒绝（`GH013: Repository rule violations - Push cannot contain secrets`）：
+
+1. **定位问题文件**：错误信息会给出 `commit: <sha>` 和 `path: <file>:<line>`
+2. **移除 secret**：用 `patch` 工具把 token 替换成占位符（如 `ghp_xx...`）
+3. **重写 git 历史**（secret 已在历史 commit 中）：
+   ```bash
+   cd ~/.hermes
+   FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force --index-filter \
+     'git rm --cached --ignore-unmatch <problem-file>' \
+     --prune-empty --tag-name-filter cat -- --all
+   ```
+4. **强制推送**：`git push origin main --force`
+5. **恢复文件**：重新添加修复后的文件并提交
+
+⚠️ `filter-branch` 会重写所有历史，耗时与 commit 数量成正比。完成后需要 `--force` 推送。
+
+### 嵌入式 Git 仓库问题
+
+skills/ 目录下有些 skill 本身是独立 git 仓库（如 `fanqie-publisher`、`mimo-skills`），`git add skills/` 会产生 warning。处理方法：
+```bash
+git rm --cached skills/fanqie-publisher skills/mimo-skills
+# 然后正常 add 其他 skills
+```
+
 ## Pitfalls
 
 1. **不要混淆Dashboard端口** — 9119是冰哥要的，8080不是
@@ -341,3 +377,5 @@ git push personal main
 4. **Python 3.9兼容性** — 现代包（crawl4ai/mem0ai/mcp等）需Python 3.12，详见 `references/python39-compatibility.md`
 5. **GitHub 推送目标** — hermes-agent 的 `origin` 是上游（NousResearch），本地修改推到 `personal` fork
 6. **大 diff 先同步** — 本地分支和上游分歧太大时，先 rebase/merge 再处理本地修改
+7. **嵌入式 git 仓库** — skills/ 下的 `fanqie-publisher` 和 `mimo-skills` 是独立 git 仓库，add 前需 `git rm --cached`
+8. **Secret scanning 阻止推送** — 历史 commit 含 token 时，`git filter-branch` 重写历史 + `--force` 推送。修改当前文件不够，必须清理历史
