@@ -278,6 +278,7 @@ This keeps the common work fast (flash) while reserving expensive context for th
 
 ### Pitfalls
 
+- **⚠️ CRITICAL: `delegation` config ≠ `delegate_task` model** — The `delegation.provider`/`delegation.model` settings in config.yaml do NOT control what model `delegate_task` uses. You MUST pass `model` explicitly in each task: `delegate_task(tasks=[{goal, model: {model: "agnes-2.0-flash"}}])`. Forgetting this causes delegate_task to use the session's default model (often expensive deepseek-v4-pro). **Cost of this mistake: ¥112 in one session** (671 calls × 5575万 tokens). Always specify model explicitly, even for "simple" tasks.
 - **Don't overuse Pro** — Pro models cost more and run slower. Reserve for data-heavy or reasoning-intensive tasks.
 - **小莉 has no network access** — Don't assign web searches or API calls to the local model.
 - **Profile names matter** — The wrapper name (e.g. `xiaoli`) must match the profile name in Hermes config.
