@@ -1,0 +1,9 @@
+# Generated files
+data/_sync_all.py
+
+# Python
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store

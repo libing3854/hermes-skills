@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 热点周报 | W{week} · {date_range}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  --bg-deep: #0d1117;
+  --bg-main: #16213e;
+  --bg-card: #1a2847;
+  --bg-card-hover: #1f3056;
+  --accent-amber: #f0a500;
+  --accent-orange: #e76f51;
+  --accent-blue: #00b4d8;
+  --accent-green: #06d6a0;
+  --accent-purple: #7209b7;
+  --accent-yellow: #ffd166;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0a6;
+  --text-muted: #5f6368;
+  --border-subtle: #2d3748;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+.magazine {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ========== HEADER ========== */
+.mag-header {
+  text-align: center;
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.mag-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, var(--bg-main) 0%, var(--bg-deep) 70%);
+  z-index: -1;
+}
+
+.mag-header::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-amber), var(--accent-orange), var(--accent-blue));
+}
+
+.week-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-orange));
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 0.4rem 1.5rem;
+  border-radius: 50px;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.mag-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 3.5rem;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mag-header .date-range {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+  margin-bottom: 0.8rem;
+}
+
+/* ========== LAYOUT ========== */
+.mag-layout {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+@media (max-width: 960px) {
+  .mag-layout { grid-template-columns: 1fr; }
+  .mag-header h1 { font-size: 2.2rem; }
+  .magazine { padding: 0 1rem; }
+}
+
+.col-main { display: flex; flex-direction: column; gap: 2rem; }
+.col-sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 1rem; }
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-accent {
+  border-left: 4px solid var(--accent-amber);
+}
+
+.card-accent-blue {
+  border-left: 4px solid var(--accent-blue);
+}
+
+.card-accent-orange {
+  border-left: 4px solid var(--accent-orange);
+}
+
+.card-accent-green {
+  border-left: 4px solid var(--accent-green);
+}
+
+.card-accent-purple {
+  border-left: 4px solid var(--accent-purple);
+}
+
+/* ========== FOCUS SECTION ========== */
+.focus-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.focus-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.focus-item:first-child {
+  padding-top: 0;
+}
+
+.focus-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--accent-amber);
+}
+
+.focus-item h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.3rem;
+}
+
+.focus-item p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ========== HOT NEWS ========== */
+.hot-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: flex-start;
+}
+
+.hot-item:last-child { border-bottom: none; }
+.hot-item:first-child { padding-top: 0; }
+
+.hot-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  line-height: 1;
+  min-width: 40px;
+  color: var(--accent-orange);
+}
+
+.hot-content h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.hot-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-top: 0.4rem;
+  text-transform: uppercase;
+}
+
+.tag-breaking { background: rgba(231,111,81,0.2); color: var(--accent-orange); }
+.tag-market { background: rgba(240,165,0,0.2); color: var(--accent-amber); }
+.tag-model { background: rgba(0,180,216,0.2); color: var(--accent-blue); }
+.tag-industry { background: rgba(6,214,160,0.2); color: var(--accent-green); }
+.tag-events { background: rgba(114,9,183,0.2); color: var(--accent-purple); }
+
+/* ========== MODELS ========== */
+.model-item {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.model-item:last-child { border-bottom: none; }
+
+.model-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+}
+
+.model-org {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.model-desc {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.spec-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.spec-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.7rem;
+  border-radius: 8px;
+  background: rgba(0,180,216,0.15);
+  color: var(--accent-blue);
+}
+
+/* ========== PRODUCTS ========== */
+.prod-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.prod-row:last-child { border-bottom: none; }
+
+.prod-rank {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  min-width: 28px;
+  text-align: center;
+  color: var(--accent-amber);
+}
+
+.prod-info {
+  flex: 1;
+}
+
+.prod-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.prod-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.prod-upvotes {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent-green);
+}
+
+/* ========== PAPERS ========== */
+.paper-item {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.paper-item:last-child { border-bottom: none; }
+
+.paper-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+}
+
+.paper-authors {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.paper-upvotes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+}
+
+.paper-upvotes span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ========== GITHUB TRENDING ========== */
+.gh-item {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.gh-item:last-child { border-bottom: none; }
+
+.gh-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.gh-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent-yellow);
+}
+
+.gh-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* ========== KEYWORD CLOUD ========== */
+.keyword-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.keyword {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.keyword:hover {
+  transform: scale(1.05);
+}
+
+.keyword-primary {
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-orange));
+  color: #000;
+  font-size: 1.1rem;
+}
+
+.keyword-secondary {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-blue);
+  color: var(--accent-blue);
+  font-size: 0.95rem;
+}
+
+.keyword-default {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ========== TREND SUMMARY ========== */
+.trend-quote {
+  font-family: 'Source Serif 4', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--accent-amber);
+  line-height: 1.6;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(240,165,0,0.08), rgba(231,111,81,0.08));
+  border-radius: 12px;
+  border-left: 3px solid var(--accent-amber);
+}
+
+.trend-quote strong {
+  color: var(--text-primary);
+  font-style: normal;
+}
+
+/* ========== SECTION HEADERS ========== */
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-title .emoji {
+  font-size: 1.5rem;
+}
+
+/* ========== FOOTER ========== */
+.mag-footer {
+  text-align: center;
+  padding: 3rem 0 2rem;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.mag-footer a {
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+.mag-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.3s; }
+.anim-d4 { animation-delay: 0.4s; }
+.anim-d5 { animation-delay: 0.5s; }
+.anim-d6 { animation-delay: 0.6s; }
+.anim-d7 { animation-delay: 0.7s; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .mag-header h1 { font-size: 1.8rem; }
+  .card { padding: 1.2rem; }
+  .focus-item { grid-template-columns: 50px 1fr; }
+  .focus-num { font-size: 2rem; }
+  .mag-layout { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="magazine">
+
+  <!-- ====== HEADER ====== -->
+  <header class="mag-header animate-in anim-d1">
+    <div class="week-badge">WEEK {week}</div>
+    <h1>📰 AI 热点周报</h1>
+    <p class="date-range">{date_range}</p>
+  </header>
+
+  <!-- ====== MAIN LAYOUT ====== -->
+  <div class="mag-layout">
+
+    <!-- ====== MAIN COLUMN ====== -->
+    <div class="col-main">
+
+      <!-- 📌 本周焦点 -->
+      <section class="card card-accent animate-in anim-d2">
+        <div class="section-tag">📌 本周焦点</div>
+        <!-- FOCUS_ITEMS -->
+      </section>
+
+      <!-- 🔥 本周热点 TOP 5 -->
+      <section class="card card-accent-orange animate-in anim-d3">
+        <div class="section-title"><span class="emoji">🔥</span> 本周热点 TOP 5</div>
+        <!-- HOT_ITEMS -->
+      </section>
+
+      <!-- 🧠 模型发布 -->
+      <section class="card card-accent-blue animate-in anim-d4">
+        <div class="section-title"><span class="emoji">🧠</span> 模型发布</div>
+        <!-- MODEL_ITEMS -->
+      </section>
+
+    </div>
+
+    <!-- ====== SIDEBAR ====== -->
+    <div class="col-sidebar">
+
+      <!-- 🚀 产品动态 -->
+      <section class="card card-accent-green animate-in anim-d5">
+        <div class="section-title"><span class="emoji">🚀</span> 产品动态</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Product Hunt AI 6月榜单</p>
+        <!-- PROD_ROWS -->
+      </section>
+
+      <!-- 📄 前沿论文 -->
+      <section class="card card-accent-purple animate-in anim-d6">
+        <div class="section-title"><span class="emoji">📄</span> 前沿论文</div>
+        <!-- PAPER_ITEMS -->
+      </section>
+
+      <!-- 💻 开源项目 -->
+      <section class="card card-accent animate-in anim-d7">
+        <div class="section-title"><span class="emoji">💻</span> 开源项目</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">本周GitHub AI热门</p>
+        <!-- GH_ITEMS -->
+      </section>
+
+      <!-- 📊 趋势总结 -->
+      <section class="card card-accent-orange animate-in anim-d7">
+        <div class="section-title"><span class="emoji">📊</span> 趋势总结</div>
+        <!-- KEYWORD_CLOUD -->
+        <!-- TREND_QUOTE -->
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="mag-footer">
+    <p>📰 AI 热点周报 · W{week} · {date_range}</p>
+    <p style="margin-top:0.5rem;">数据来源：BuildFastWithAI · HuggingFace Papers · Product Hunt · GitHub API · news.smol.ai</p>
+    <p style="margin-top:0.5rem;">由 莉莉丝 自动生成 · <a href="#">订阅RSS</a> · <a href="#">Discord</a></p>
+  </footer>
+
+</div>
+</body>
+</html>

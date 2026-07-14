@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 热点周报 | W26 · 2026年6月22日 — 6月28日</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  --bg-deep: #0d1117;
+  --bg-main: #16213e;
+  --bg-card: #1a2847;
+  --bg-card-hover: #1f3056;
+  --accent-amber: #f0a500;
+  --accent-orange: #e76f51;
+  --accent-blue: #00b4d8;
+  --accent-green: #06d6a0;
+  --accent-purple: #7209b7;
+  --accent-yellow: #ffd166;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0a6;
+  --text-muted: #5f6368;
+  --border-subtle: #2d3748;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+.magazine {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ========== HEADER ========== */
+.mag-header {
+  text-align: center;
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.mag-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, var(--bg-main) 0%, var(--bg-deep) 70%);
+  z-index: -1;
+}
+
+.mag-header::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-amber), var(--accent-orange), var(--accent-blue));
+}
+
+.week-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-orange));
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 0.4rem 1.5rem;
+  border-radius: 50px;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.mag-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 3.5rem;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mag-header .date-range {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+  margin-bottom: 0.8rem;
+}
+
+/* ========== LAYOUT ========== */
+.mag-layout {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+@media (max-width: 960px) {
+  .mag-layout { grid-template-columns: 1fr; }
+  .mag-header h1 { font-size: 2.2rem; }
+  .magazine { padding: 0 1rem; }
+}
+
+.col-main { display: flex; flex-direction: column; gap: 2rem; }
+.col-sidebar { display: flex; flex-direction: column; gap: 1.5rem; position: sticky; top: 1rem; }
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-amber);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-accent {
+  border-left: 4px solid var(--accent-amber);
+}
+
+.card-accent-blue {
+  border-left: 4px solid var(--accent-blue);
+}
+
+.card-accent-orange {
+  border-left: 4px solid var(--accent-orange);
+}
+
+.card-accent-green {
+  border-left: 4px solid var(--accent-green);
+}
+
+.card-accent-purple {
+  border-left: 4px solid var(--accent-purple);
+}
+
+/* ========== FOCUS SECTION ========== */
+.focus-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  padding: 1.5rem 0;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.focus-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.focus-item:first-child {
+  padding-top: 0;
+}
+
+.focus-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--accent-amber);
+}
+
+.focus-item h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.3rem;
+}
+
+.focus-item p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ========== HOT NEWS ========== */
+.hot-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: flex-start;
+}
+
+.hot-item:last-child { border-bottom: none; }
+.hot-item:first-child { padding-top: 0; }
+
+.hot-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  line-height: 1;
+  min-width: 40px;
+  color: var(--accent-orange);
+}
+
+.hot-content h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.hot-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-top: 0.4rem;
+  text-transform: uppercase;
+}
+
+.tag-breaking { background: rgba(231,111,81,0.2); color: var(--accent-orange); }
+.tag-market { background: rgba(240,165,0,0.2); color: var(--accent-amber); }
+.tag-model { background: rgba(0,180,216,0.2); color: var(--accent-blue); }
+.tag-industry { background: rgba(6,214,160,0.2); color: var(--accent-green); }
+.tag-events { background: rgba(114,9,183,0.2); color: var(--accent-purple); }
+
+/* ========== MODELS ========== */
+.model-item {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.model-item:last-child { border-bottom: none; }
+
+.model-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+}
+
+.model-org {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.model-desc {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.spec-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.spec-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.7rem;
+  border-radius: 8px;
+  background: rgba(0,180,216,0.15);
+  color: var(--accent-blue);
+}
+
+/* ========== PRODUCTS ========== */
+.prod-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.prod-row:last-child { border-bottom: none; }
+
+.prod-rank {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  min-width: 28px;
+  text-align: center;
+  color: var(--accent-amber);
+}
+
+.prod-info {
+  flex: 1;
+}
+
+.prod-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.prod-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.prod-upvotes {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent-green);
+}
+
+/* ========== PAPERS ========== */
+.paper-item {
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.paper-item:last-child { border-bottom: none; }
+
+.paper-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+}
+
+.paper-authors {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.paper-upvotes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent-orange);
+}
+
+.paper-upvotes span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ========== GITHUB TRENDING ========== */
+.gh-item {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.gh-item:last-child { border-bottom: none; }
+
+.gh-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.gh-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent-yellow);
+}
+
+.gh-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+/* ========== KEYWORD CLOUD ========== */
+.keyword-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 0;
+}
+
+.keyword {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.keyword:hover {
+  transform: scale(1.05);
+}
+
+.keyword-primary {
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-orange));
+  color: #000;
+  font-size: 1.1rem;
+}
+
+.keyword-secondary {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-blue);
+  color: var(--accent-blue);
+  font-size: 0.95rem;
+}
+
+.keyword-default {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* ========== TREND SUMMARY ========== */
+.trend-quote {
+  font-family: 'Source Serif 4', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--accent-amber);
+  line-height: 1.6;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(240,165,0,0.08), rgba(231,111,81,0.08));
+  border-radius: 12px;
+  border-left: 3px solid var(--accent-amber);
+}
+
+.trend-quote strong {
+  color: var(--text-primary);
+  font-style: normal;
+}
+
+/* ========== SECTION HEADERS ========== */
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-title .emoji {
+  font-size: 1.5rem;
+}
+
+/* ========== FOOTER ========== */
+.mag-footer {
+  text-align: center;
+  padding: 3rem 0 2rem;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.mag-footer a {
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+.mag-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.3s; }
+.anim-d4 { animation-delay: 0.4s; }
+.anim-d5 { animation-delay: 0.5s; }
+.anim-d6 { animation-delay: 0.6s; }
+.anim-d7 { animation-delay: 0.7s; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .mag-header h1 { font-size: 1.8rem; }
+  .card { padding: 1.2rem; }
+  .focus-item { grid-template-columns: 50px 1fr; }
+  .focus-num { font-size: 2rem; }
+  .mag-layout { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="magazine">
+
+  <!-- ====== HEADER ====== -->
+  <header class="mag-header animate-in anim-d1">
+    <div class="week-badge">WEEK 26</div>
+    <h1>📰 AI 热点周报</h1>
+    <p class="date-range">2026年6月22日 — 6月28日</p>
+  </header>
+
+  <!-- ====== MAIN LAYOUT ====== -->
+  <div class="mag-layout">
+
+    <!-- ====== MAIN COLUMN ====== -->
+    <div class="col-main">
+
+      <!-- 📌 本周焦点 -->
+      <section class="card card-accent animate-in anim-d2">
+        <div class="section-tag">📌 本周焦点</div>
+        <div class="focus-item">
+          <div class="focus-num">01</div>
+          <div>
+            <h3>GPT-5.6 发布推迟至7月</h3>
+            <p>Polymarket预测市场6月22-28日窗口概率从83%暴跌至18%。原因包括：Goblin事件后奖励审计流程重建、OpenAI S-1 IPO静默期法律约束、以及kindle-alpha版本企业测试暴露问题。GPT-5.5仍是当前生产API锚点。</p>
+          </div>
+        </div>
+        <div class="focus-item">
+          <div class="focus-num">02</div>
+          <div>
+            <h3>Alphabet 6天内失去4名核心AI研究员，市值蒸发$2690亿</h3>
+            <p>AI人才首次成为可市场定价的"人力资产"。这一事件标志着AI行业竞争进入白热化阶段，顶尖研究人员的流失直接影响上市公司市值，人才争夺战将深刻改变AI行业的组织形态。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 🔥 本周热点 TOP 5 -->
+      <section class="card card-accent-orange animate-in anim-d3">
+        <div class="section-title"><span class="emoji">🔥</span> 本周热点 TOP 5</div>
+
+        <div class="hot-item">
+          <div class="hot-num">1</div>
+          <div class="hot-content">
+            <h3>GPT-5.6 发布推迟至7月</h3>
+            <p>Polymarket预测概率从83%暴跌至18%，OpenAI IPO静默期叠加奖励审计重建，6月窗口正式关闭。</p>
+            <span class="tag tag-breaking">Breaking</span>
+          </div>
+        </div>
+
+        <div class="hot-item">
+          <div class="hot-num">2</div>
+          <div class="hot-content">
+            <h3>Alphabet 遭AI人才流失重创，$2690亿市值蒸发</h3>
+            <p>6天内4名核心AI研究员离职，AI人才首次成为可定价的"人力资产"，人才争夺战白热化。</p>
+            <span class="tag tag-market">Market</span>
+          </div>
+        </div>
+
+        <div class="hot-item">
+          <div class="hot-num">3</div>
+          <div class="hot-content">
+            <h3>Gemini 3.5 Pro 再度延期至7月</h3>
+            <p>Google连续两次I/O承诺未兑现，Gemini 3.5 Pro从5月推迟到6月再推迟到7月，Google AI领导力受质疑。</p>
+            <span class="tag tag-model">Model</span>
+          </div>
+        </div>
+
+        <div class="hot-item">
+          <div class="hot-num">4</div>
+          <div class="hot-content">
+            <h3>OpenAI 考虑大幅降价对抗Anthropic</h3>
+            <p>OpenAI正考虑激进定价策略以在IPO前争夺市场份额，可能引发AI行业价格战。</p>
+            <span class="tag tag-industry">Industry</span>
+          </div>
+        </div>
+
+        <div class="hot-item">
+          <div class="hot-num">5</div>
+          <div class="hot-content">
+            <h3>AI股票崩盘：纳斯达克跌2.2%，美光跌13%</h3>
+            <p>AI Capex $4520亿问题引发投资者焦虑，市场对AI投资回报周期产生疑虑。</p>
+            <span class="tag tag-market">Market</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 🧠 模型发布 -->
+      <section class="card card-accent-blue animate-in anim-d4">
+        <div class="section-title"><span class="emoji">🧠</span> 模型发布</div>
+
+        <div class="model-item">
+          <div class="model-name">Qwen-AgentWorld</div>
+          <div class="model-org">阿里通义 (Qwen)</div>
+          <div class="model-desc">语言世界模型用于通用Agent，在HuggingFace获得599 upvotes，Agent基础设施重要里程碑。</div>
+          <div class="spec-row">
+            <span class="spec-badge">599 upvotes</span>
+            <span class="spec-badge">4 comments</span>
+            <span class="spec-badge">Agent World Model</span>
+          </div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-name">GPT-5.5-Cyber</div>
+          <div class="model-org">OpenAI</div>
+          <div class="model-desc">OpenAI Daybreak扩展至"Patch the Planet"，GPT-5.5系列持续迭代，为GPT-5.6铺路。</div>
+          <div class="spec-row">
+            <span class="spec-badge">GPT-5.5 Series</span>
+            <span class="spec-badge">Daybreak</span>
+          </div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-name">Claude Tag</div>
+          <div class="model-org">Anthropic</div>
+          <div class="model-desc">Anthropic的AI队友直接嵌入Slack，无需切换上下文即可使用AI能力。</div>
+          <div class="spec-row">
+            <span class="spec-badge">Slack集成</span>
+            <span class="spec-badge">AI Teammate</span>
+          </div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-name">GPT-4.5 退休</div>
+          <div class="model-org">OpenAI</div>
+          <div class="model-desc">6月27日是GPT-4.5在ChatGPT的最后一天，标志着GPT-4时代的正式终结。</div>
+          <div class="spec-row">
+            <span class="spec-badge">End of Life</span>
+            <span class="spec-badge">GPT-4 Era Ends</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ====== SIDEBAR ====== -->
+    <div class="col-sidebar">
+
+      <!-- 🚀 产品动态 -->
+      <section class="card card-accent-green animate-in anim-d5">
+        <div class="section-title"><span class="emoji">🚀</span> 产品动态</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">Product Hunt AI 6月榜单</p>
+
+        <div class="prod-row">
+          <div class="prod-rank">1</div>
+          <div class="prod-info">
+            <div class="prod-title">Fundraisly</div>
+            <div class="prod-meta">AI驱动融资平台</div>
+          </div>
+          <div class="prod-upvotes">1027 ▲</div>
+        </div>
+
+        <div class="prod-row">
+          <div class="prod-rank">2</div>
+          <div class="prod-info">
+            <div class="prod-title">Upstream</div>
+            <div class="prod-meta">AI开发工具</div>
+          </div>
+          <div class="prod-upvotes">653 ▲</div>
+        </div>
+
+        <div class="prod-row">
+          <div class="prod-rank">3</div>
+          <div class="prod-info">
+            <div class="prod-title">Bluerails Discovery</div>
+            <div class="prod-meta">AI发现引擎</div>
+          </div>
+          <div class="prod-upvotes">621 ▲</div>
+        </div>
+
+        <div class="prod-row">
+          <div class="prod-rank">4</div>
+          <div class="prod-info">
+            <div class="prod-title">Goldfish</div>
+            <div class="prod-meta">AI记忆系统</div>
+          </div>
+          <div class="prod-upvotes">606 ▲</div>
+        </div>
+
+        <div class="prod-row">
+          <div class="prod-rank">5</div>
+          <div class="prod-info">
+            <div class="prod-title">Tencent EdgeOne Makers</div>
+            <div class="prod-meta">腾讯AI开发平台</div>
+          </div>
+          <div class="prod-upvotes">562 ▲</div>
+        </div>
+      </section>
+
+      <!-- 📄 前沿论文 -->
+      <section class="card card-accent-purple animate-in anim-d6">
+        <div class="section-title"><span class="emoji">📄</span> 前沿论文</div>
+
+        <div class="paper-item">
+          <div class="paper-title">TradingAgents: 多Agent LLM金融交易框架</div>
+          <div class="paper-authors">Wei Wang, Di Luo, Edward Sun, Yijia Xiao</div>
+          <div class="paper-upvotes">102 ▲ <span>· GitHub 89.2k</span></div>
+        </div>
+
+        <div class="paper-item">
+          <div class="paper-title">MinerU2.5: 高分辨率文档解析视觉语言模型</div>
+          <div class="paper-authors">ouyanglinke, wanderkid, Chokoyo 等61人</div>
+          <div class="paper-upvotes">174 ▲ <span>· GitHub 71.2k</span></div>
+        </div>
+
+        <div class="paper-item">
+          <div class="paper-title">EverMemOS: 自组织记忆操作系统</div>
+          <div class="paper-authors">Yi Bai, Dannong Xu, Zuyi Zhou</div>
+          <div class="paper-upvotes">▲ <span>· Agent记忆系统</span></div>
+        </div>
+
+        <div class="paper-item">
+          <div class="paper-title">Unlimited OCR Works: 长序列OCR注意力机制</div>
+          <div class="paper-authors">百度 (Baidu)</div>
+          <div class="paper-upvotes">38 ▲ <span>· GitHub 11.2k</span></div>
+        </div>
+
+        <div class="paper-item">
+          <div class="paper-title">3D Gen: 苹果空间智能生成</div>
+          <div class="paper-authors">Apple</div>
+          <div class="paper-upvotes">▲ <span>· 空间计算</span></div>
+        </div>
+      </section>
+
+      <!-- 💻 开源项目 -->
+      <section class="card card-accent animate-in anim-d7">
+        <div class="section-title"><span class="emoji">💻</span> 开源项目</div>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">本周GitHub AI热门</p>
+
+        <div class="gh-item">
+          <div class="gh-name">eli-labz/Godcoder <span class="gh-stars">⭐ 245</span></div>
+          <div class="gh-desc">本地优先的开源桌面编码Agent，自带LLM密钥管理</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">lemma-work/lemma-platform <span class="gh-stars">⭐ 151</span></div>
+          <div class="gh-desc">人类与AI Agent协作的开源工作空间</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">benlamiro/ShipGenAI <span class="gh-stars">⭐ 136</span></div>
+          <div class="gh-desc">50个生产级生成式AI SaaS应用模板</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">Reyzowter/Hello-Agents <span class="gh-stars">⭐ 135</span></div>
+          <div class="gh-desc">从零构建AI Agent系统的全面实战教程</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">GraeLefix/GITVERSE <span class="gh-stars">⭐ 131</span></div>
+          <div class="gh-desc">逆向工程任意代码库为构建提示词</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">Simpl3x3/ESEILANE <span class="gh-stars">⭐ 105</span></div>
+          <div class="gh-desc">高性能知识图谱引擎，支持LLM和GraphRAG</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">openclaw/openclaw <span class="gh-stars">⭐ 380.8k</span></div>
+          <div class="gh-desc">你的个人AI助手，全平台通用 🦞</div>
+        </div>
+
+        <div class="gh-item">
+          <div class="gh-name">ik190/macos-chatgpt-overlay-bar <span class="gh-stars">⭐ 70</span></div>
+          <div class="gh-desc">Mac菜单栏ChatGPT悬浮窗</div>
+        </div>
+      </section>
+
+      <!-- 📊 趋势总结 -->
+      <section class="card card-accent-orange animate-in anim-d7">
+        <div class="section-title"><span class="emoji">📊</span> 趋势总结</div>
+
+        <div class="keyword-cloud">
+          <span class="keyword keyword-primary">GPT-5.6</span>
+          <span class="keyword keyword-primary">Agent</span>
+          <span class="keyword keyword-primary">人才争夺</span>
+          <span class="keyword keyword-secondary">IPO</span>
+          <span class="keyword keyword-secondary">价格战</span>
+          <span class="keyword keyword-secondary">世界模型</span>
+          <span class="keyword">记忆系统</span>
+          <span class="keyword">多Agent</span>
+          <span class="keyword">开源</span>
+          <span class="keyword">文档解析</span>
+          <span class="keyword">金融交易</span>
+          <span class="keyword">空间计算</span>
+          <span class="keyword">Slack集成</span>
+          <span class="keyword">SaaS模板</span>
+          <span class="keyword">知识图谱</span>
+        </div>
+
+        <div class="trend-quote">
+          <strong>本周判断：</strong>AI行业正从"模型竞赛"转向"基础设施深耕"。GPT-5.6的延迟不是技术失败，而是行业成熟的标志——当模型变得足够好，<strong>Agent基础设施</strong>（记忆系统、世界模型、多Agent框架）才是真正的战场。同时，AI人才首次成为可定价的"人力资产"，将深刻改变科技公司的组织形态。
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="mag-footer">
+    <p>📰 AI 热点周报 · W26 · 2026.06.22 — 06.28</p>
+    <p style="margin-top:0.5rem;">数据来源：BuildFastWithAI · HuggingFace Papers · Product Hunt · GitHub API · news.smol.ai</p>
+    <p style="margin-top:0.5rem;">由 莉莉丝 自动生成 · <a href="#">订阅RSS</a> · <a href="#">Discord</a></p>
+  </footer>
+
+</div>
+</body>
+</html>
