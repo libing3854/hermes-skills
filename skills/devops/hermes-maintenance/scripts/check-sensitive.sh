@@ -52,7 +52,6 @@ check_pattern() {
         fi
         
         if [ "$real_count" -gt 0 ]; then
-            echo ""
             FOUND=$((FOUND + 1))
         fi
     fi
@@ -64,16 +63,16 @@ check_pattern "OpenAI Key" "sk-[A-Za-z0-9]\{20,\}" "sk-XXX"
 check_pattern "AnySearch Key" "as_sk_[A-Za-z0-9]\{20,\}" "as_sk_xxx"
 check_pattern "Token Plan" "tp-[A-Za-z0-9]\{20,\}" "tp-xxx"
 
-# 邮箱
-check_pattern "Z-Library 主号邮箱" "libing19950105@gmail.com"
-check_pattern "Z-Library 备用邮箱" "541812906@qq.com"
+# 邮箱（排除文档中的示例）
+check_pattern "Z-Library 主号邮箱" "libing19950105@gmail.com" "REDACTED"
+check_pattern "Z-Library 备用邮箱" "541812906@qq.com" "REDACTED"
 
-# 密码 / 凭证
-check_pattern "通用密码" "1472291855"
-check_pattern "QQ号/用户名" "541812906"
+# 密码 / 凭证（排除文档中的示例）
+check_pattern "通用密码" "1472291855" "REDACTED"
+check_pattern "QQ号/用户名" "541812906" "REDACTED"
 
-# 组合模式
-check_pattern "SMB凭证" "541812906%1472291855"
+# 组合模式（排除文档中的示例）
+check_pattern "SMB凭证" "541812906%1472291855" "REDACTED"
 
 # 检查仓库可见性
 if command -v gh &> /dev/null; then

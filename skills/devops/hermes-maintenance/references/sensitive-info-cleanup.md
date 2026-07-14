@@ -49,18 +49,20 @@ git grep -n "ghp_[A-Za-z0-9]\{36\}\|sk-[A-Za-z0-9]\{20,\}\|as_sk_[A-Za-z0-9]\{20
 
 ### 2. 邮箱地址
 ```bash
-git grep -n "libing19950105@gmail.com\|541812906@qq.com" -- '*.md'
+# 替换为实际的邮箱地址
+git grep -n "your-email@example.com\|backup@example.com" -- '*.md'
 ```
 
 ### 3. 密码 / 凭证
 ```bash
-git grep -n "1472291855" -- '*.md' '*.json' '*.yaml' '*.yml'
+# 替换为实际的密码
+git grep -n "your-password-here" -- '*.md' '*.json' '*.yaml' '*.yml'
 ```
 
 ### 4. 用户名 + 密码组合
 ```bash
 # SMB 格式 user%password
-git grep -n "541812906%1472291855" -- '*.md'
+git grep -n "username%password" -- '*.md'
 ```
 
 ### 5. 环境变量名（通常安全）
@@ -108,8 +110,9 @@ FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force --index-filter \
 # ⚠️ 如果有未提交的更改，先 git stash
 cd ~/.hermes && git stash
 
+# 替换为实际的敏感信息
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force \
-  --tree-filter 'find . -type f -name "*.md" -print0 | xargs -0 sed -i "" "s/1472291855/[REDACTED]/g; s/541812906@qq.com/[REDACTED]/g"' \
+  --tree-filter 'find . -type f -name "*.md" -print0 | xargs -0 sed -i "" "s/your-password/[REDACTED]/g; s/your-email@example.com/[REDACTED]/g"' \
   --prune-empty --tag-name-filter cat -- --all
 
 # 验证历史中已无敏感信息
@@ -127,10 +130,10 @@ git push origin main --force
 
 | 类型 | 示例 | 替换为 |
 |------|------|--------|
-| Z-Library 主号邮箱 | libing19950105@gmail.com | [REDACTED] |
-| Z-Library 备用邮箱 | 541812906@qq.com | [REDACTED] |
-| QQ号 / SMB用户名 | 541812906 | [REDACTED] |
-| 通用密码 | 1472291855 | [REDACTED] |
+| Z-Library 主号邮箱 | your-email@example.com | [REDACTED] |
+| Z-Library 备用邮箱 | backup@example.com | [REDACTED] |
+| QQ号 / SMB用户名 | your-username | [REDACTED] |
+| 通用密码 | your-password | [REDACTED] |
 | GitHub Token | ghp_xxxx | ghp_xx... |
 | API Key 示例 | sk-XXX...XXXX | 保留（安全示例） |
 
