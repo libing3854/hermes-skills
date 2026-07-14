@@ -301,6 +301,35 @@ hermes gateway restart
 
 ## 十、GitHub 仓库维护
 
+### 敏感词检查（commit/push 前必做）
+
+在提交或推送代码前，**必须**运行敏感词检查脚本：
+
+```bash
+# 检查当前仓库
+bash ~/.hermes/skills/devops/hermes-maintenance/scripts/check-sensitive.sh
+
+# 检查指定目录
+bash ~/.hermes/skills/devops/hermes-maintenance/scripts/check-sensitive.sh /path/to/repo
+```
+
+**检查内容：**
+- API Key / Token（GitHub Token、OpenAI Key、AnySearch Key、Token Plan）
+- 邮箱地址（Z-Library 账号）
+- 密码 / 凭证（通用密码、QQ号、SMB凭证）
+- 仓库可见性（公开仓库风险更高）
+
+**脚本位置：** `~/.hermes/skills/devops/hermes-maintenance/scripts/check-sensitive.sh`
+
+**自动排除：** 示例格式（如 `sk-XXX...XXXX`）不会被标记为泄露。
+
+**如果检查失败：**
+1. 用 `[REDACTED]` 替换敏感信息
+2. 如果已在 git 历史中，用 `git filter-branch` 清理
+3. 参考 `references/sensitive-info-cleanup.md`
+
+⚠️ **公开仓库必须每次都检查**，即使之前清理过，也要确认没有新增敏感信息。
+
 ### 冰哥的仓库结构
 - **hermes-skills**（`~/.hermes/`）：自定义 skills 仓库，remote → `libing3854/hermes-skills.git`
 - **hermes-agent**（`~/.hermes/hermes-agent/`）：Hermes 主代码库
@@ -350,16 +379,25 @@ git push personal main
 1. **定位问题文件**：错误信息会给出 `commit: <sha>` 和 `path: <file>:<line>`
 2. **移除 secret**：用 `patch` 工具把 token 替换成占位符（如 `ghp_xx...`）
 3. **重写 git 历史**（secret 已在历史 commit 中）：
+   - **移除整个文件**：用 `--index-filter`
+   - **替换文件内容**（密码、邮箱嵌在文档中）：必须用 `--tree-filter`
    ```bash
    cd ~/.hermes
-   FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force --index-filter \
-     'git rm --cached --ignore-unmatch <problem-file>' \
+   # 如果有未提交的更改，先 stash
+   git stash
+   # 替换文件内的敏感信息（tree-filter 支持内容替换）
+   FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force \
+     --tree-filter 'find . -type f -name "*.md" -print0 | xargs -0 sed -i "" "s/<敏感信息>/[REDACTED]/g"' \
      --prune-empty --tag-name-filter cat -- --all
+   # 验证清理完成
+   git log --all -p -- '*.md' | grep -c "<敏感信息>"
    ```
 4. **强制推送**：`git push origin main --force`
 5. **恢复文件**：重新添加修复后的文件并提交
 
 ⚠️ `filter-branch` 会重写所有历史，耗时与 commit 数量成正比。完成后需要 `--force` 推送。
+⚠️ `--index-filter` 只能移除文件，不能修改文件内容。要替换文件内的密码/邮箱，必须用 `--tree-filter`。
+⚠️ 多个替换模式用分号分隔：`s/pattern1/replacement/g; s/pattern2/replacement/g`
 
 ### 嵌入式 Git 仓库问题
 
@@ -379,3 +417,5 @@ git rm --cached skills/fanqie-publisher skills/mimo-skills
 6. **大 diff 先同步** — 本地分支和上游分歧太大时，先 rebase/merge 再处理本地修改
 7. **嵌入式 git 仓库** — skills/ 下的 `fanqie-publisher` 和 `mimo-skills` 是独立 git 仓库，add 前需 `git rm --cached`
 8. **Secret scanning 阻止推送** — 历史 commit 含 token 时，`git filter-branch` 重写历史 + `--force` 推送。修改当前文件不够，必须清理历史
+9. **公开仓库泄露更严重** — 推送前用 `gh repo view <repo> --json isPrivate,visibility` 确认仓库可见性。公开仓库中泄露的密码即使后来改了，git历史中仍有旧密码
+10. **敏感信息扫描范围** — 不仅扫描 API key，还要扫描邮箱、QQ号、SMB密码、内网IP等。详见 `references/sensitive-info-cleanup.md`
